@@ -8,7 +8,7 @@ import { z } from "zod"
 const formSchema = z.object({
   nameFirst: z.string().min(2).max(70),
   nameLast: z.string().min(2).max(70),
-  departMent: z.string().min(2).max(50),
+  departMent: z.string().max(50),
   depRole: z.string().min(2).max(50),
   emailAddress: z.string().min(2).max(50),
   salaryGrade: z.string().min(1).max(50),
@@ -50,6 +50,13 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
     console.log(employeeLength)
     return employeeID
   }
+  function generatePassword(employeeId: String){
+    let passEmployee = 'empass';
+    passEmployee = 'empass'+employeeId;
+
+    console.log(passEmployee)
+    return passEmployee
+  }
     const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -77,7 +84,8 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
       ...values,
       "idEmployee": generateID('2025'),
       "payGross": gpay,
-      "hireDate": new Date().toISOString()
+      "hireDate": new Date().toISOString(),
+      "passEmployee": generatePassword('empass')
     }
     console.log(data)
     fetch("http://localhost:3000/employees", {
