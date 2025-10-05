@@ -45,32 +45,32 @@ import React from "react"
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="">
         <SidebarGroup>
-          <SidebarGroupLabel>PadalaKo Management System</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-black">PadalaKo Management System</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <span>DASHBOARD</span>
+                <div  className="text-white bg-black p-1">DASHBOARD</div>
                 <SidebarMenuSub>
                   
                   <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild>
                     <a href="Dashboard">
                       <ico.Monitor/>
-                      <span>Overview/Analytics</span>
+                      <span className="text-black">Overview/Analytics</span>
                     </a>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
 
                 </SidebarMenuSub>
-                <span>HUMAN RESOURCES</span>
+                <div  className="text-white bg-black p-1">HUMAN RESOURCES</div>
                 <SidebarMenuSub>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <a href="Employee">
                         <ico.Users />
-                        <span>Employees</span>
+                        <span className="text-black">Employees</span>
                       </a>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
@@ -81,19 +81,19 @@ export function AppSidebar() {
                     <SidebarMenuSubButton asChild>
                       <a href="Attendance">
                         <ico.Clock />
-                        <span>Attendance</span>
+                        <span className="text-black">Attendance</span>
                       </a>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 </SidebarMenuSub>
 
-                <span>FINANCES</span>
+                <div  className="text-white bg-black p-1">FINANCES</div>
                 <SidebarMenuSub>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <a href="Payroll">
                         <ico.Receipt />
-                        <span>Payroll</span>
+                        <span className="text-black">Payroll</span>
                       </a>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
@@ -104,15 +104,15 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="w-full bg-green-950">
           <SidebarMenu>
             <SidebarMenuItem>
               <Collapsible defaultOpen className="group/collapsible">
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="w-full">
+                    <SidebarMenuButton className="w-full bg-green-950">
                       <ico.User/>
-                      <span>Admin</span>
+                      <div>Admin</div>
                       <ico.ChevronUp className="ml-auto"/>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>

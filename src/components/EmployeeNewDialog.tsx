@@ -51,8 +51,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
     return employeeID
   }
   function generatePassword(employeeId: String){
-    let passEmployee = 'empass';
-    passEmployee = 'empass'+employeeId;
+    let passEmployee = 'empass'+employeeId;
 
     console.log(passEmployee)
     return passEmployee

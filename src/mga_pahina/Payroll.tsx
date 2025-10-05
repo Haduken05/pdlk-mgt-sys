@@ -44,6 +44,12 @@ function Payroll() {
         .then(data => setPayroll(data.data));
 
     }, []);
+
+    function payStatus(status: any){
+
+
+    }
+
    return (
     <SidebarProvider>
       <AppSidebar />

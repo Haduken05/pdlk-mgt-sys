@@ -22,7 +22,7 @@ import moment from "moment"
 import { useEffect, useState } from "react"
 
 const formSchema = z.object({
-  idEmployee: z.number().min(100000).max(999999),
+  idEmployee: z.number({message: "Please input a valid ID number."}).max(999999),
 
 })
 
