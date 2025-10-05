@@ -10,6 +10,7 @@ import Dashboard from './mga_pahina/Dashboard.tsx';
 import Payroll from './mga_pahina/Payroll.tsx';
 import Employee from './mga_pahina/Employee.tsx';
 import Attendance from './mga_pahina/Attedance.tsx';
+import Account from './mga_pahina/Account.tsx';
 
 let router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ let router = createBrowserRouter([
     path: "attendance",
     Component: Attendance,
   },
+    {
+      path: "account",
+      Component: Account,
+  }
 ]);
 
 createRoot(document.getElementById('root')!).render(

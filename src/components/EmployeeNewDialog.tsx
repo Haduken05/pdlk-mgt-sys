@@ -1,10 +1,20 @@
 "use client"
  
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { Form } from "@/components/ui/form"
 import { z } from "zod"
- 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
 const formSchema = z.object({
   nameFirst: z.string().min(2).max(70),
   nameLast: z.string().min(2).max(70),
@@ -38,9 +48,19 @@ interface NewEmployeeDialogers {
   employeeLength: any;
   onSuccess?: any;
 }
+let department = [
+  { label: "Marketing", value: "Marketing" },
+  { label: "IS Operations", value: "IS Operations" },
+  { label: "Finance", value: "Finance" },
+  { label: "General Operations", value: "General Operations" },
+  { label: "Human Resources", value: "Human Resources" },
+  { label: "Legal & Compliance", value: "Legal" }
+];
+
+
 export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialogers) {
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   function generateID(hireDate: String){
     let employeeID = 100000;
@@ -51,7 +71,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
     return employeeID
   }
   function generatePassword(employeeId: String){
-    let passEmployee = 'empass'+employeeId;
+    let passEmployee = 'empass'+ employeeId;
 
     console.log(passEmployee)
     return passEmployee
@@ -79,9 +99,18 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
     else if(values.salaryGrade == "SSR"){ gpay = 250000}
     else if(values.salaryGrade == "SSR+"){ gpay = 500000}
     
+    let dep = '';
+    if(values.departMent == "Marketing"){dep = "Marketing"}
+    else if(values.departMent == "Human Resources"){dep = "Human Resources"}
+    else if(values.departMent == "General Operations"){dep = "General Operations"}
+    else if(values.departMent == "IS Operations"){dep = "IS Operations"}
+    else if(values.departMent == "Finance"){dep = "Finance"}
+    else if(values.departMent == "Human Resources"){dep = "Human Resources"}
+
     const data = {
       ...values,
       "idEmployee": generateID('2025'),
+      "departMent": dep, 
       "payGross": gpay,
       "hireDate": new Date().toISOString(),
       "passEmployee": generatePassword('empass')
@@ -155,20 +184,47 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
               </FormItem>
             
           )} />
+          {/* <div className="">
+          <Label className="mb-2">Department</Label>
+          <Select>
+            <SelectTrigger className="w-200%">
+              <SelectValue placeholder="Select a Department" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Departments</SelectLabel>
+                <SelectItem value="IS Operations">IS Operations</SelectItem>
+                <SelectItem value="General Operations">General Operations</SelectItem>
+                <SelectItem value="Human Resources">Human Resources</SelectItem>
+                <SelectItem value="Finance">Finance</SelectItem>
+                <SelectItem value="Marketing">Marketing</SelectItem>
+                <SelectItem value="Legal">Legal & Compliance</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          </div> */}
+
           <FormField
           control={form.control}
           name="departMent"
           render={({ field }) => (
               <FormItem>
-                <div>
                 <FormLabel>Department</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <Input placeholder="" {...field} className="mt-2"/>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a Department" />
+                  </SelectTrigger>
                 </FormControl>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    
-                </div>
+                <SelectContent>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                  <SelectItem value="IS Operations">IS Operations</SelectItem>
+                  <SelectItem value="General Operations">General Operations</SelectItem>
+                  <SelectItem value="Finance">Finance</SelectItem>
+                  <SelectItem value="Human Resources">Human Resources</SelectItem>
+                  <SelectItem value="Legal & Compliance">Legal & Compliance</SelectItem>
+                </SelectContent>
+              </Select>
                 <FormMessage />
               </FormItem>
             
@@ -178,7 +234,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
           name="depRole"
           render={({ field }) => (
               <FormItem>
-                <div>
+                <div className="mt-2">
                 <FormLabel>Role</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} className="mt-2"/>
@@ -232,15 +288,22 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
           name="salaryGrade"
           render={({ field }) => (
               <FormItem>
-                <div>
                 <FormLabel>Salary Grade</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <Input placeholder="" {...field} className="mt-2"/>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a Salary Grade" />
+                  </SelectTrigger>
                 </FormControl>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    
-                </div>
+                <SelectContent>
+                  <SelectItem value="A"> A </SelectItem>
+                  <SelectItem value="S"> S </SelectItem>
+                  <SelectItem value="SS"> SS </SelectItem>
+                  <SelectItem value="SR"> SR </SelectItem>
+                  <SelectItem value="SSR"> SSR </SelectItem>
+                  <SelectItem value="SSR+"> SSR+ </SelectItem>
+                </SelectContent>
+              </Select>
                 <FormMessage />
               </FormItem>
             

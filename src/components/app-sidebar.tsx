@@ -104,13 +104,13 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="w-full bg-green-950">
+      <SidebarFooter className="w-full border-green-950 border-t-1">
           <SidebarMenu>
             <SidebarMenuItem>
               <Collapsible defaultOpen className="group/collapsible">
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="w-full bg-green-950">
+                    <SidebarMenuButton className="w-full">
                       <ico.User/>
                       <div>Admin</div>
                       <ico.ChevronUp className="ml-auto"/>
@@ -119,12 +119,16 @@ export function AppSidebar() {
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       <SidebarMenuSubItem>
-                        <SidebarMenuButton>Account</SidebarMenuButton>
+                        <SidebarMenuButton>
+                          <a href="Account">
+                            <span className="text-black">Account</span>
+                          </a>
+                        </SidebarMenuButton>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
                         <Dialog>
                             <DialogTrigger asChild>
-                              <SidebarMenuButton>Log Out</SidebarMenuButton>
+                              <SidebarMenuButton className="text-black">Log Out</SidebarMenuButton>
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px]">
                               <DialogHeader>

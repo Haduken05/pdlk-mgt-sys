@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -61,6 +60,7 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
       const body: any = {
 
         idEmployee: employees.id,
+        passEmployee: employees.passEmployee,
         timeIn: new Date().toISOString(),
         
       }
