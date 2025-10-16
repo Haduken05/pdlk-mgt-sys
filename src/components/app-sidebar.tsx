@@ -48,7 +48,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="h-max text-white text-lg mt-2 bg-green-800"><ico.PhilippinePeso className="mr-1.5"/><Separator orientation="vertical" className="mr-1"/>PadalaKo Management System</SidebarGroupLabel>
+          <SidebarGroupLabel className="h-max text-white text-lg mt-2 bg-green-800"><ico.PhilippinePeso className="mr-1.5"/><Separator orientation="vertical" className="mr-1 bg-white"/>PadalaKo Management System</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="mt-4">
               <SidebarMenuItem>

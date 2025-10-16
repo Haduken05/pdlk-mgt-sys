@@ -54,7 +54,7 @@ import { EmployeeDialogNew } from "@/components/EmployeeNewDialog";
     <SidebarProvider>
       <AppSidebar />
       <main className="w-full">
-        <Card className="w-[1250px] mx-auto mt-8">
+        <Card className="w-[1250px] mx-25 mt-8 absolute">
             <CardHeader className="flex justify-between">
                 <div>
                     <CardTitle>{cardData.title}</CardTitle>
