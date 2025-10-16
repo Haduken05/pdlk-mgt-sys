@@ -23,15 +23,14 @@ import { useEffect, useState } from "react"
 
 const formSchema = z.object({
   idEmployee: z.number({message: "Please input a valid ID number."}).max(999999),
-  passEmployee: z.string()
 
 })
 
-interface NewAttendanceDialogers {
-  onSuccess?: any;
+interface NewPayrollDialogers {
+  onSuccess?: () => void;
 }
 
-export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
+export function DialogPayroll({onSuccess}: NewPayrollDialogers) {
 
   const [open, setOpen] = useState(false)
 
@@ -47,57 +46,84 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
       resolver: zodResolver(formSchema),
       defaultValues: {
         idEmployee: NaN,
-        passEmployee: "",
 
       },
     })
   const [employees, setEmployees] = useState<any>([]);
+  const [payroll, setPayroll] = useState<any>([]);
   async function onSubmit(values: z.infer<typeof formSchema>) {
-  try {
-    // Await the fetch and parse the JSON
-    const res = await fetch('http://localhost:3000/employees/' + values.idEmployee);
-    const data = await res.json();
+    try {
+      const res = await fetch(`http://localhost:3000/employees/${values.idEmployee}`)
+      
+      const data = await res.json()
+      if (!res.ok) return
+      const employee = data.data
+      if (!employee) return
 
-    // Use the data directly instead of relying on React state
-    const employee = data.data;
+      const body = {
+        idEmployee: employee.idEmployee,
+        basePay: payroll.basePay,
+        deductSSS: 500,
+        deductPH: 500,
+        deductPI: 500,
+        deductBIR: 500,
+        status: "UNPAID",
+        datePaid: new Date().toISOString(),
+        payOvertime: 0,
+        deductionsOthers: 500,
+        memoOtherDeductions: "500",
+        deductionsTotal: 500,
+        additionalOther: 500,
+        memoAdditional: "500",
+        netPay: 250000,
+        hoursPaid: 8,
+        type: "PAYROLL",
+        month: new Date().toISOString(),
+        // deductSSS: payroll.deductSSS,
+        // deductPH: payroll.deductPH,
+        // deductPI: payroll.deductPI,
+        // deductBIR: payroll.deductBIR,
+        // status: payroll.status,
+        // datePaid: payroll.datePaid,
+        // payOvertime: payroll.payOvertime,
+        // deductionsOthers: payroll.deductionsOthers,
+        // memoOtherDeductions: payroll.memoOtherDeductions,
+        // deductionsTotal: payroll.deductionsTotal,
+        // additionalOther: payroll.additionalOther,
+        // memoAdditional: payroll.memoAdditional,
+        // netPay: payroll.netPay,
+        // hoursPaid: payroll.hoursPaid,
+        // type: payroll.type,
+        // month: payroll.month,
+      }
+      console.log(employee.idEmployee)
+      const postRes = await fetch("http://localhost:3000/payroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+      const postData = await postRes.json()
+      if (!postRes.ok) return
 
-    const body = {
-      idEmployee: employee.id,
-      timeIn: new Date().toISOString(),
-    };
-
-    console.log(body);
-
-    // Await the POST request
-    const postRes = await fetch("http://localhost:3000/attendance", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-
-
-
-    setOpen(false);
-    onSuccess();
-  } catch (error) {
-    console.error(error);
+      setOpen(false)
+      onSuccess?.()
+    } catch (error) {
+      console.log(error)
+    }
   }
-}
 
   
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-        <Button className="w-[100px] mx-auto mt-4 text-white">Time In</Button>
+        <Button className="w-[200px] mx-auto mt-4 text-white">Generate Payroll</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-            <DialogTitle>PDLK TIME SYSTEM</DialogTitle>
+            <DialogTitle>PadalaKo Payroll</DialogTitle>
             <DialogDescription>
-            PadalaKo Employee Attendance System
+            PadalaKo Employee Payroll System
             </DialogDescription>
         </DialogHeader>
         <div>
@@ -130,37 +156,13 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
               </FormItem>
             
           )} />
-
-          <FormField
-          control={form.control}
-          name="passEmployee"
-          render={({ field }) => (
-              <FormItem>
-                <div>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input 
-                  type="password"
-                  {...field}
-                  value={field.value ?? ""}
-                  className="mt-2" 
-                  onChange={(e) => field.onChange(e.target.value === "" ? undefined : String(e.target.value))}/>
-                </FormControl>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    
-                </div>
-                <FormMessage />
-              </FormItem>
-            
-          )} />
             
             </div>
             <div className="grid gap-3">
             </div>
         </div>
         <DialogFooter>
-            <Button type="submit" className="text-white">Time In</Button>
+            <Button type="submit">Generate</Button>
         </DialogFooter>
         </form>
         </Form>

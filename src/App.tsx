@@ -49,10 +49,7 @@ async function onSubmit(values: z.infer<typeof formSchema>){
       if(data.status){
         navigate('/dashboard')
       } else {
-        console.log('asdasdad')
-      }
-      } catch (error) {
-
+        console.log('asdasdad');
         <Dialog>
           <DialogContent>
             <DialogHeader>
@@ -63,8 +60,11 @@ async function onSubmit(values: z.infer<typeof formSchema>){
             </DialogHeader>
           </DialogContent>
         </Dialog>
-        console.log(error);
         console.log('error');
+      }
+      } catch (error) {
+
+        
     }
     console.log(values)
     }catch(error){console.log(error)}
@@ -90,9 +90,10 @@ async function onSubmit(values: z.infer<typeof formSchema>){
                     <Input 
                     type="number"
                     placeholder='ID'
+                    autoComplete="off"
                     {...field}
                     value={field.value ?? ""}
-                    className="w-[100%] py-[12px] px-[14px] border border-solid border-gray-300 rounded-[8px] text-sm outline-none box-border transition-colors duration-200 focus:border-[#4caf50] focus:shadow-[0_0_5px_rgba(76,175,80,0.5)] text-black" 
+                    className="placeholder:text-gray-500 w-[100%] py-[12px] px-[14px] border border-solid border-gray-300 rounded-[8px] text-sm outline-none box-border transition-colors duration-200 focus:border-[#4caf50] focus:shadow-[0_0_5px_rgba(76,175,80,0.5)] text-black" 
                     onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}/>
                   </FormControl>
                   </FormItem>
@@ -107,11 +108,12 @@ async function onSubmit(values: z.infer<typeof formSchema>){
                   <FormLabel className='text-black'>Password</FormLabel>
                   <FormControl>
                     <Input 
-                    type='text'
+                    type='password'
                     placeholder='Password'
+                    autoComplete="off"
                     {...field}
                     value={field.value ?? ""}
-                    className="w-[100%] py-[12px] px-[14px] border border-solid border-gray-300 rounded-[8px] text-sm outline-none box-border transition-colors duration-200 focus:border-[#4caf50] focus:shadow-[0_0_5px_rgba(76,175,80,0.5)] text-black" 
+                    className="placeholder:text-gray-500 w-[100%] py-[12px] px-[14px] border border-solid border-gray-300 rounded-[8px] text-sm outline-none box-border transition-colors duration-200 focus:border-[#4caf50] focus:shadow-[0_0_5px_rgba(76,175,80,0.5)] text-black" 
                     onChange={(e) => field.onChange(e.target.value === "" ? undefined : String(e.target.value))}/>
                   </FormControl>
                   </FormItem>
@@ -122,7 +124,7 @@ async function onSubmit(values: z.infer<typeof formSchema>){
             {/* <Button type="submit" className='mt-[20px] w-[100%] p-[12px] bg-[#4caf50] text-white text-[16px] font-bold border-none rounded-[8px] 
             cursor-pointer text-center transition-colors duration-200 hover:bg-[#388e3c] hover:scale-[1.02]'>Login</Button> */}
 
-              <Button type="submit">Login</Button>
+              <Button type="submit" className="text-white">Login</Button>
         </div>
       
       </div>

@@ -40,16 +40,17 @@ import { Button } from "@/components/ui/button"
 
 import * as ico from "lucide-react"
 import React from "react"
+import { Separator } from "./ui/separator"
 
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent className="">
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-black">PadalaKo Management System</SidebarGroupLabel>
+          <SidebarGroupLabel className="h-max text-white text-lg mt-2 bg-green-800"><ico.PhilippinePeso className="mr-1.5"/><Separator orientation="vertical" className="mr-1"/>PadalaKo Management System</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="mt-4">
               <SidebarMenuItem>
                 <div  className="text-white bg-black p-1">DASHBOARD</div>
                 <SidebarMenuSub>
@@ -71,6 +72,17 @@ export function AppSidebar() {
                       <a href="Employee">
                         <ico.Users />
                         <span className="text-black">Employees</span>
+                      </a>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                
+                <SidebarMenuSub>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <a href="Requests">
+                        <ico.UserSquare />
+                        <span className="text-black">Employee Requests</span>
                       </a>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
@@ -111,19 +123,17 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton className="w-full">
-                      <ico.User/>
-                      <div>Admin</div>
+                      <ico.User color="black"/>
+                      <div className="text-black">User</div>
                       <ico.ChevronUp className="ml-auto"/>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       <SidebarMenuSubItem>
-                        <SidebarMenuButton>
-                          <a href="Account">
-                            <span className="text-black">Account</span>
-                          </a>
-                        </SidebarMenuButton>
+                        <a href="Account">
+                        <SidebarMenuButton className="text-black">Account</SidebarMenuButton>
+                        </a>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
                         <Dialog>
@@ -141,7 +151,7 @@ export function AppSidebar() {
                                 <DialogClose asChild>
                                   <Button variant="outline">Cancel</Button>
                                 </DialogClose>
-                                <Button><a href="/">Log Out</a></Button>
+                                <Button className="text-white"><a href="/">Log Out</a></Button>
                               </DialogFooter>
                             </DialogContent>
                         </Dialog>

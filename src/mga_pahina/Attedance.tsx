@@ -108,7 +108,7 @@ function Attendance() {
                         <TableCell className="text-center">{attendance.lateHours}</TableCell> 
                         <TableCell className="text-center">{attendance.earlyOutTime}</TableCell>
                         <TableCell className="text-center">{attendance.workedHours}</TableCell>
-                        <TableCell className="text-center"><Button variant="secondary" className="w-[60] h-[15] bg-gray-700" onClick={() => timeOutie(attendance.id)}><ico.Clock/>Time Out</Button></TableCell>
+                        <TableCell className="text-center"><Button  className="w-[60] h-[15] text-white bg-red-900 border-1 hover:bg-red-200 hover:border-red hover:border-1 hover:text-black" onClick={() => timeOutie(attendance.id)}><ico.Clock/>Time Out</Button></TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

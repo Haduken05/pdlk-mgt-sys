@@ -70,7 +70,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
     console.log(employeeLength)
     return employeeID
   }
-  function generatePassword(employeeId: String){
+  function generatePassword(employeeId: number){
     let passEmployee = 'empass'+ employeeId;
 
     console.log(passEmployee)
@@ -107,13 +107,14 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
     else if(values.departMent == "Finance"){dep = "Finance"}
     else if(values.departMent == "Human Resources"){dep = "Human Resources"}
 
+    const generatedID = generateID('2025')
     const data = {
       ...values,
-      "idEmployee": generateID('2025'),
+      "idEmployee": generatedID,
       "departMent": dep, 
       "payGross": gpay,
       "hireDate": new Date().toISOString(),
-      "passEmployee": generatePassword('empass')
+      "passEmployee": generatePassword(generatedID)
     }
     console.log(data)
     fetch("http://localhost:3000/employees", {
@@ -135,7 +136,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
   return (
     <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button><ico.UserPlus/>Add New</Button>
+          <Button className="text-white"><ico.UserPlus/>Add New</Button>
         </DialogTrigger>
         
         

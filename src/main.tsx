@@ -11,6 +11,7 @@ import Payroll from './mga_pahina/Payroll.tsx';
 import Employee from './mga_pahina/Employee.tsx';
 import Attendance from './mga_pahina/Attedance.tsx';
 import Account from './mga_pahina/Account.tsx';
+import EmployeeReqs from './mga_pahina/EmployeeRequest.tsx';
 
 let router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ let router = createBrowserRouter([
     {
       path: "account",
       Component: Account,
+  },
+    {
+      path: "requests",
+      Component: EmployeeReqs,
   }
 ]);
 
