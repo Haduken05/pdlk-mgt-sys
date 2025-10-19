@@ -20,10 +20,12 @@ import z from "zod"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import moment from "moment"
 import { useEffect, useState } from "react"
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 
 const formSchema = z.object({
-  idEmployee: z.number({message: "Please input a valid ID number."}).max(999999),
-  passEmployee: z.string()
+  idEmployee: z.string({message: "Please input a valid ID number."})
 
 })
 
@@ -46,19 +48,16 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
   const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        idEmployee: NaN,
-        passEmployee: "",
+        idEmployee: "",
 
       },
     })
-  const [employees, setEmployees] = useState<any>([]);
+  const [employees] = useState<any>([]);
   async function onSubmit(values: z.infer<typeof formSchema>) {
   try {
-    // Await the fetch and parse the JSON
     const res = await fetch('http://localhost:3000/employees/' + values.idEmployee);
     const data = await res.json();
-
-    // Use the data directly instead of relying on React state
+    console.log(values.idEmployee)
     const employee = data.data;
 
     const body = {
@@ -68,7 +67,7 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
 
     console.log(body);
 
-    // Await the POST request
+
     const postRes = await fetch("http://localhost:3000/attendance", {
       method: "POST",
       headers: {
@@ -93,78 +92,87 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
         <DialogTrigger asChild>
         <Button className="w-[100px] mx-auto mt-4 text-white">Time In</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-            <DialogTitle>PDLK TIME SYSTEM</DialogTitle>
-            <DialogDescription>
-            PadalaKo Employee Attendance System
-            </DialogDescription>
+          <DialogTitle>Employee Attendance</DialogTitle>
+          <DialogDescription>
+            Scan ID Code for attendance.
+          </DialogDescription>
         </DialogHeader>
-        <div>
-          {moment().format('L')} {time.toLocaleTimeString('en-US')}
-        </div>
-        <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid gap-4">
-            <div className="grid gap-3">
-            <FormField
-          control={form.control}
-          name="idEmployee"
-          render={({ field }) => (
-              <FormItem>
-                <div>
-                <FormLabel>ID Number</FormLabel>
-                <FormControl>
-                  <Input 
-                  type="number"
-                  {...field}
-                  value={field.value ?? ""}
-                  className="mt-2" 
-                  onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}/>
-                </FormControl>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    
-                </div>
-                <FormMessage />
-              </FormItem>
-            
-          )} />
 
-          <FormField
-          control={form.control}
-          name="passEmployee"
-          render={({ field }) => (
-              <FormItem>
-                <div>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input 
-                  type="password"
-                  {...field}
-                  value={field.value ?? ""}
-                  className="mt-2" 
-                  onChange={(e) => field.onChange(e.target.value === "" ? undefined : String(e.target.value))}/>
-                </FormControl>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    
-                </div>
-                <FormMessage />
-              </FormItem>
-            
-          )} />
-            
-            </div>
-            <div className="grid gap-3">
-            </div>
+        <div className="flex w-full flex-col gap-6 mt-4">
+          <Tabs defaultValue="account">
+            <TabsList>
+              <TabsTrigger value="timein">TIME IN</TabsTrigger>
+              <TabsTrigger value="timeout">TIME OUT</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="timein">
+              <Card>
+                <CardHeader>
+                  <CardTitle>TIME IN</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="grid gap-3">
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)}>
+                      <FormField
+                        control={form.control}
+                        name="idEmployee"
+                        render={({ field }) => (
+                          <FormItem>
+                            <div>
+                            <FormLabel>ID</FormLabel>
+                            <FormControl>
+                              <Input 
+                              type="number"
+                              placeholder="" {...field}
+                              autoFocus
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter"){
+                                  e.preventDefault();
+                                  form.handleSubmit(onSubmit)();
+                                }
+                              }}
+                              className="mt-2"/>
+                            </FormControl>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                                
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                      )} />
+                      <Button type="submit"> Send </Button>
+                      </form>
+                      </Form>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="timeout">
+              <Card>
+                <CardHeader>
+                  <CardTitle>TIME OUT</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="grid gap-3">
+                    <Label htmlFor="tabs-demo-new">ID</Label>
+                    <Input id="tabs-demo-new" type="text" className="border-1 border-black"/>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
+
         <DialogFooter>
-            <Button type="submit" className="text-white">Time In</Button>
+          <DialogClose asChild>
+            <Button className="text-white">Close</Button>
+          </DialogClose>
         </DialogFooter>
-        </form>
-        </Form>
-        </DialogContent>
+      </DialogContent>
     </Dialog>
   )
 }
