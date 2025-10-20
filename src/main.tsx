@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { ThemeProvider } from "@/components/theme-provider"
 import './index.css'
 import App from './App.tsx'
 import {
@@ -12,6 +13,7 @@ import Employee from './mga_pahina/Employee.tsx';
 import Attendance from './mga_pahina/Attedance.tsx';
 import Account from './mga_pahina/Account.tsx';
 import EmployeeReqs from './mga_pahina/EmployeeRequest.tsx';
+import RevenueAndExpenses from './mga_pahina/ExpensesRevenue.tsx'
 
 let router = createBrowserRouter([
   {
@@ -42,11 +44,17 @@ let router = createBrowserRouter([
     {
       path: "requests",
       Component: EmployeeReqs,
+  },
+    {
+      path: "expensesrevenue",
+      Component: RevenueAndExpenses,
   }
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>,
 )

@@ -89,9 +89,6 @@ function Payroll() {
                         <ico.BadgeX /> Unpaid
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-center">
-                      <DialogPayroll onSuccess={fetchPayroll} />
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

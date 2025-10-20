@@ -21,7 +21,7 @@ const formSchema = z.object({
   departMent: z.string().max(50),
   depRole: z.string().min(2).max(50),
   emailAddress: z.string().min(2).max(50),
-  salaryGrade: z.string().min(1).max(50),
+  salary: z.number(),
   cpNumber: z.string().min(13).max(13),
 
 
@@ -84,7 +84,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
       departMent:"",
       depRole: "",
       emailAddress:"",
-      salaryGrade:"",
+      salary: NaN,
       cpNumber: ""
       
 
@@ -92,12 +92,13 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
     let gpay = 0;
-    if(values.salaryGrade == "A"){ gpay = 25000}
-    else if(values.salaryGrade == "S"){ gpay = 35000}
-    else if(values.salaryGrade == "SR"){ gpay = 95000}
-    else if(values.salaryGrade == "SS"){ gpay = 150000}
-    else if(values.salaryGrade == "SSR"){ gpay = 250000}
-    else if(values.salaryGrade == "SSR+"){ gpay = 500000}
+    let salaryGrade ="";
+    if(values.salary <= 25000){ salaryGrade = "A"}
+    else if(values.salary <= 35000){ salaryGrade = "S"}
+    else if(values.salary <= 95000){ salaryGrade = "SS"}
+    else if(values.salary <= 150000){ salaryGrade = "SR"}
+    else if(values.salary <= 250000){ salaryGrade = "SSR"}
+    else { salaryGrade = "SSR+"}
     
     let dep = '';
     if(values.departMent == "Marketing"){dep = "Marketing"}
@@ -114,7 +115,8 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
       "departMent": dep, 
       "payGross": gpay,
       "hireDate": new Date().toISOString(),
-      "passEmployee": generatePassword(generatedID)
+      "passEmployee": generatePassword(generatedID),
+      "salaryGrade": salaryGrade
     }
     console.log(data)
     fetch("http://localhost:3000/employees", {
@@ -185,25 +187,7 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
               </FormItem>
             
           )} />
-          {/* <div className="">
-          <Label className="mb-2">Department</Label>
-          <Select>
-            <SelectTrigger className="w-200%">
-              <SelectValue placeholder="Select a Department" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Departments</SelectLabel>
-                <SelectItem value="IS Operations">IS Operations</SelectItem>
-                <SelectItem value="General Operations">General Operations</SelectItem>
-                <SelectItem value="Human Resources">Human Resources</SelectItem>
-                <SelectItem value="Finance">Finance</SelectItem>
-                <SelectItem value="Marketing">Marketing</SelectItem>
-                <SelectItem value="Legal">Legal & Compliance</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          </div> */}
+          
 
           <FormField
           control={form.control}
@@ -286,35 +270,24 @@ export function EmployeeDialogNew({employeeLength, onSuccess}: NewEmployeeDialog
           )} />
           <FormField
           control={form.control}
-          name="salaryGrade"
+          name="salary"
           render={({ field }) => (
               <FormItem>
-                <FormLabel>Salary Grade</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel>Salary</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a Salary Grade" />
-                  </SelectTrigger>
+                  <Input type="number" placeholder="" {...field} 
+                  onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+                  className="mt-2"/>
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="A"> A </SelectItem>
-                  <SelectItem value="S"> S </SelectItem>
-                  <SelectItem value="SS"> SS </SelectItem>
-                  <SelectItem value="SR"> SR </SelectItem>
-                  <SelectItem value="SSR"> SSR </SelectItem>
-                  <SelectItem value="SSR+"> SSR+ </SelectItem>
-                </SelectContent>
-              </Select>
                 <FormMessage />
-              </FormItem>
-            
-          )} />
+              </FormItem> 
+              )} />
                   
                   <DialogFooter className="mt-4">
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="text-white">Submit</Button>
             </DialogFooter>
             </form>
             </Form>

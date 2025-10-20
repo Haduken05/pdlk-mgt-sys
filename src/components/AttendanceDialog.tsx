@@ -19,10 +19,11 @@ import { Form } from "@/components/ui/form"
 import z from "zod"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import moment from "moment"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
+
 
 const formSchema = z.object({
   idEmployee: z.string({message: "Please input a valid ID number."})
@@ -34,6 +35,15 @@ interface NewAttendanceDialogers {
 }
 
 export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
+
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [activeTab, setActiveTab] = useState("timein");
+
+  useEffect(() => {
+    if(inputRef.current){
+      inputRef.current.focus();
+    }
+  },[activeTab])
 
   const [open, setOpen] = useState(false)
 
@@ -52,20 +62,67 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
 
       },
     })
+  
   const [employees] = useState<any>([]);
+
+  async function onSubmit2_Electric_Boogaloo(values: z.infer<typeof formSchema>){
+    let currentDate = new Date();
+    const time = currentDate.toLocaleTimeString("en-CA", {timeZone: "Asia/Manila", hour: '2-digit', minute:'2-digit', second:'2-digit',hourCycle:'h23'})
+    const date = currentDate.toLocaleDateString("en-CA", {timeZone: "Asia/Manila"})
+    const dateSplit = currentDate.toISOString().slice(0,10)
+    const dateTime = `${dateSplit}T${time}`
+    const newDateTime = new Date(dateTime)
+
+    console.log(currentDate)
+    console.log(date)
+
+    const res = await fetch('http://localhost:3000/attendance/filter?employeeId=' + values.idEmployee + '&date=' + date);
+    const data = await res.json();
+    // console.log(values.idEmployee)
+    const employee = data.data;
+    // console.log(data)
+    
+    const body = {
+      timeOut: newDateTime
+    }
+
+    fetch("http://localhost:3000/attendance/"+ employee[0].id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "Application/JSON",
+      },
+      body: JSON.stringify(body),
+      })
+        .then((res) => 
+          {res.json()
+            setOpen(false);
+            onSuccess();
+          })
+        .catch((error) => {
+          console.log(error);
+        });
+
+        
+  }
   async function onSubmit(values: z.infer<typeof formSchema>) {
   try {
-    const res = await fetch('http://localhost:3000/employees/' + values.idEmployee);
-    const data = await res.json();
-    console.log(values.idEmployee)
-    const employee = data.data;
+    
+    let currentDate = new Date();
+    const time = currentDate.toLocaleTimeString("en-CA", {timeZone: "Asia/Manila", hour: '2-digit', minute:'2-digit', second:'2-digit',hourCycle:'h23'})
+    const date = currentDate.toLocaleDateString("en-CA", {timeZone: "Asia/Manila"})
+    const dateSplit = currentDate.toISOString().slice(0,10)
+    const dateTime = `${dateSplit}T${time}`
+    const newDateTime = new Date(dateTime)
 
     const body = {
-      idEmployee: employee.id,
-      timeIn: new Date().toISOString(),
+      idEmployee: values.idEmployee,
+      timeIn: newDateTime,
     };
 
+
     console.log(body);
+    console.log(currentDate)
+    console.log(newDateTime)
 
 
     const postRes = await fetch("http://localhost:3000/attendance", {
@@ -101,7 +158,7 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
         </DialogHeader>
 
         <div className="flex w-full flex-col gap-6 mt-4">
-          <Tabs defaultValue="account">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
               <TabsTrigger value="timein">TIME IN</TabsTrigger>
               <TabsTrigger value="timeout">TIME OUT</TabsTrigger>
@@ -122,12 +179,13 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
                         render={({ field }) => (
                           <FormItem>
                             <div>
-                            <FormLabel>ID</FormLabel>
+                            <FormLabel>Scan ID</FormLabel>
                             <FormControl>
-                              <Input 
-                              type="number"
-                              placeholder="" {...field}
+                              <Input
+                              placeholder=""
+                              {...field}
                               autoFocus
+                              autoComplete="off"
                               onKeyDown={(e) => {
                                 if (e.key === "Enter"){
                                   e.preventDefault();
@@ -143,7 +201,6 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
                             <FormMessage />
                           </FormItem>
                       )} />
-                      <Button type="submit"> Send </Button>
                       </form>
                       </Form>
                   </div>
@@ -158,8 +215,37 @@ export function DialogAttendance({onSuccess}: NewAttendanceDialogers) {
                 </CardHeader>
                 <CardContent className="grid gap-6">
                   <div className="grid gap-3">
-                    <Label htmlFor="tabs-demo-new">ID</Label>
-                    <Input id="tabs-demo-new" type="text" className="border-1 border-black"/>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit2_Electric_Boogaloo)}>
+                      <FormField
+                        control={form.control}
+                        name="idEmployee"
+                        render={({ field }) => (
+                          <FormItem>
+                            <div>
+                            <FormLabel>Scan ID</FormLabel>
+                            <FormControl>
+                              <Input 
+                              placeholder="" {...field}
+                              autoFocus
+                              autoComplete="off"
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter"){
+                                  e.preventDefault();
+                                  form.handleSubmit(onSubmit2_Electric_Boogaloo)();
+                                }
+                              }}
+                              className="mt-2"/>
+                            </FormControl>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                                
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                      )} />
+                      </form>
+                      </Form>
                   </div>
                 </CardContent>
               </Card>

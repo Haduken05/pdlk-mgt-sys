@@ -14,6 +14,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { ThemeProvider } from "@/components/theme-provider"
+
 
 const formSchema = z.object({
   idEmployee: z.number({message: "Please input a valid ID number."}).max(999999),

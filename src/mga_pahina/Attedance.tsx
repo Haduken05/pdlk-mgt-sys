@@ -30,10 +30,7 @@ function Attendance() {
   const [attendance, setAttendance] = useState([]);
   
       useEffect(() => {
-        fetch('http://localhost:3000/attendance')
-          .then(res => res.json())
-          .then(data => setAttendance(data.data));
-  
+        fetchAttendance()
       }, []);
 
     function fetchAttendance(){
@@ -46,28 +43,28 @@ function Attendance() {
 
     }, []);
 
-    function timeOutie(id: string){
-    const body: any = {
+  //   function timeOutie(id: string){
+  //   const body: any = {
 
-        timeOut: new Date().toISOString(),
+  //       timeOut: new Date().toISOString(),
         
-      }
-      console.log(body)
-    fetch("http://localhost:3000/attendance/"+ id, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "Application/JSON",
-      },
-      body: JSON.stringify(body),
-      })
-        .then((res) => 
-          {res.json()
-           fetchAttendance()
-          })
-        .catch((error) => {
-          console.log(error);
-        });
-  }
+  //     }
+  //     console.log(body)
+  //   fetch("http://localhost:3000/attendance/"+ id, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "Application/JSON",
+  //     },
+  //     body: JSON.stringify(body),
+  //     })
+  //       .then((res) => 
+  //         {res.json()
+  //          fetchAttendance()
+  //         })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  // }
 
    return (
     <SidebarProvider>
@@ -77,12 +74,12 @@ function Attendance() {
           <DialogAttendance onSuccess={fetchAttendance}/>
         </div>
         <Separator className="my-4" />
-        <Card className="w-[1200px] mx-auto mt-8">
+        <Card className="w-[1200px] h-[550px] mx-auto mt-8">
             <CardHeader>
                 <CardTitle>Attendance</CardTitle>
                 <CardDescription>Attendance List for Employees</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className=" overflow-y-auto fill-mode-initial modal">
                 <Table>
                     <TableCaption></TableCaption>
                     <TableHeader>
@@ -108,7 +105,7 @@ function Attendance() {
                         <TableCell className="text-center">{attendance.lateHours}</TableCell> 
                         <TableCell className="text-center">{attendance.earlyOutTime}</TableCell>
                         <TableCell className="text-center">{attendance.workedHours}</TableCell>
-                        <TableCell className="text-center"><Button  className="w-[60] h-[15] text-white bg-red-900 border-1 hover:bg-red-200 hover:border-red hover:border-1 hover:text-black" onClick={() => timeOutie(attendance.id)}><ico.Clock/>Time Out</Button></TableCell>
+                        {/* <TableCell className="text-center"><Button  className="w-[60] h-[15] text-white bg-red-900 border-1 hover:bg-red-200 hover:border-red hover:border-1 hover:text-black" onClick={() => timeOutie(attendance.id)}><ico.Clock/>Time Out</Button></TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>

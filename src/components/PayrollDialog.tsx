@@ -20,7 +20,6 @@ import * as ico from "lucide-react"
 export function DialogPayroll({
   title = "Employee Payroll Details"
 }) {
-  // Editable fields
   const [sss, setSss] = useState(2)
   const [philhealth, setPhilhealth] = useState(3)
   const [pagibig, setPagibig] = useState(200)

@@ -22,7 +22,7 @@ import * as ico from "lucide-react"
 
 export function FormDialog() {
 
-    const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [date, setDate] = useState<Date | undefined>(undefined)
 
 

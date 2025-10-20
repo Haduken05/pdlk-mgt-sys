@@ -29,12 +29,12 @@
   --chart-4: oklch(0.7686 0.1647 70.0804);
   --chart-5: oklch(0.6959 0.1491 162.4796);
   --sidebar: oklch(0.9911 0 0);
-  --sidebar-foreground: oklch(0.5452 0 0);
+  --sidebar-foreground: oklch(0% 0 0);
   --sidebar-primary: oklch(0.8348 0.1302 160.9080);
   --sidebar-primary-foreground: oklch(0.2626 0.0147 166.4589);
   --sidebar-accent: oklch(0.9461 0 0);
   --sidebar-accent-foreground: oklch(0.2435 0 0);
-  --sidebar-border: rgb(132, 255, 0);
+  --sidebar-border: rgb(41, 80, 0);
   --sidebar-ring: oklch(0.8348 0.1302 160.9080);
   --font-sans: Outfit, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -57,11 +57,13 @@
   --shadow-offset-x: 0px;
   --shadow-offset-y: 1px;
   --letter-spacing: 0.025em;
+  --kolor: oklch(0% 0 0);
+  --tekskolor: oklch(100% 0.00011 271.152);
 }
 
 .dark {
   --background: oklch(0.1822 0 0);
-  --foreground: oklch(0.9288 0.0126 255.5078);
+  --foreground: oklch(100% 0.00011 271.152);
   --card: oklch(0.2046 0 0);
   --card-foreground: oklch(0.9288 0.0126 255.5078);
   --popover: oklch(0.2603 0 0);
@@ -85,12 +87,12 @@
   --chart-4: oklch(0.8369 0.1644 84.4286);
   --chart-5: oklch(0.7845 0.1325 181.9120);
   --sidebar: oklch(0.1822 0 0);
-  --sidebar-foreground: oklch(0.6301 0 0);
+  --sidebar-foreground: oklch(100% 0.00011 271.152);
   --sidebar-primary: oklch(0.4365 0.1044 156.7556);
   --sidebar-primary-foreground: oklch(0.9213 0.0135 167.1556);
   --sidebar-accent: oklch(0.3132 0 0);
   --sidebar-accent-foreground: oklch(0.9851 0 0);
-  --sidebar-border: oklch(0.2809 0 0);
+  --sidebar-border: rgb(132, 255, 0);
   --sidebar-ring: oklch(0.8003 0.1821 151.7110);
   --font-sans: Outfit, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -112,6 +114,8 @@
   --shadow-offset-y: 1px;
   --letter-spacing: 0.025em;
   --spacing: 0.25rem;
+  --kolor: oklch(79.995% 0.27016 142.189);
+  --tekskolor: oklch(0%,0,0);
 }
 
 @theme inline {
@@ -181,6 +185,8 @@
   --shadow-blur: var(--shadow-blur);
   --shadow-opacity: var(--shadow-opacity);
   --color-shadow-color: var(--shadow-color);
+  --color-kolor: var(--kolor);
+  --color-tekskolor: var(--tekskolor);
 }
 
 body {

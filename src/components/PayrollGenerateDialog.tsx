@@ -60,41 +60,46 @@ export function DialogPayroll({onSuccess}: NewPayrollDialogers) {
       const employee = data.data
       if (!employee) return
 
+      console.log(employee)
+
+      let gpay = 0;
+      if(employee.salaryGrade == "A"){ gpay = 25000}
+      else if(employee.salaryGrade == "S"){ gpay = 35000}
+      else if(employee.salaryGrade == "SR"){ gpay = 95000}
+      else if(employee.salaryGrade == "SS"){ gpay = 150000}
+      else if(employee.salaryGrade == "SSR"){ gpay = 250000}
+      else if(employee.salaryGrade == "SSR+"){ gpay = 500000}
+
+      let deductSSS = 500
+      let deductPH = 500
+      let deductPI = 500
+      let deductBIR = 500
+
+      let deductions = deductSSS + deductPH + deductBIR + deductBIR
+      let hoursPaid = 96
+      let basePay = gpay / 160
+
+      let netPay = (basePay * hoursPaid) - deductions
+
       const body = {
-        idEmployee: employee.idEmployee,
-        basePay: payroll.basePay,
-        deductSSS: 500,
-        deductPH: 500,
-        deductPI: 500,
-        deductBIR: 500,
+        idEmployee: employee.id,
+        basePay: basePay,
+        deductSSS: deductSSS,
+        deductPH: deductPH,
+        deductPI: deductPI,
+        deductBIR: deductBIR,
         status: "UNPAID",
         datePaid: new Date().toISOString(),
         payOvertime: 0,
         deductionsOthers: 500,
         memoOtherDeductions: "500",
-        deductionsTotal: 500,
+        deductionsTotal: deductions,
         additionalOther: 500,
         memoAdditional: "500",
-        netPay: 250000,
-        hoursPaid: 8,
+        netPay: netPay,
+        hoursPaid: hoursPaid,
         type: "PAYROLL",
-        month: new Date().toISOString(),
-        // deductSSS: payroll.deductSSS,
-        // deductPH: payroll.deductPH,
-        // deductPI: payroll.deductPI,
-        // deductBIR: payroll.deductBIR,
-        // status: payroll.status,
-        // datePaid: payroll.datePaid,
-        // payOvertime: payroll.payOvertime,
-        // deductionsOthers: payroll.deductionsOthers,
-        // memoOtherDeductions: payroll.memoOtherDeductions,
-        // deductionsTotal: payroll.deductionsTotal,
-        // additionalOther: payroll.additionalOther,
-        // memoAdditional: payroll.memoAdditional,
-        // netPay: payroll.netPay,
-        // hoursPaid: payroll.hoursPaid,
-        // type: payroll.type,
-        // month: payroll.month,
+        month: new Date().toISOString()
       }
       console.log(employee.idEmployee)
       const postRes = await fetch("http://localhost:3000/payroll", {
@@ -111,7 +116,9 @@ export function DialogPayroll({onSuccess}: NewPayrollDialogers) {
       console.log(error)
     }
   }
+  const fetchPayroll = () =>{
 
+  }
   
 
   return (
@@ -140,6 +147,7 @@ export function DialogPayroll({onSuccess}: NewPayrollDialogers) {
               <FormItem>
                 <div>
                 <FormLabel>ID Number</FormLabel>
+                <div className="flex items-center gap-2">
                 <FormControl>
                   <Input 
                   type="number"
@@ -148,9 +156,8 @@ export function DialogPayroll({onSuccess}: NewPayrollDialogers) {
                   className="mt-2" 
                   onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}/>
                 </FormControl>
+                {/* <Button type="button" className="w-full sm:w-auto" onClick={fetchPayroll()}>Fetch</Button> */}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    
                 </div>
                 <FormMessage />
               </FormItem>
@@ -162,7 +169,7 @@ export function DialogPayroll({onSuccess}: NewPayrollDialogers) {
             </div>
         </div>
         <DialogFooter>
-            <Button type="submit">Generate</Button>
+            <Button type="submit" className="text-white">Generate</Button>
         </DialogFooter>
         </form>
         </Form>
