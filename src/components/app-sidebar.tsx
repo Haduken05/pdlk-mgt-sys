@@ -61,14 +61,31 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
+
         <SidebarGroup>
-          <SidebarGroupLabel className="h-max text-white text-lg mt-2 bg-green-800"><ico.PhilippinePeso className="mr-1.5" onClick={() => toggleTheme()}/><Separator orientation="vertical" className="mr-1 bg-white"/>PadalaKo Management System</SidebarGroupLabel>
+
+        <SidebarGroupLabel className="flex items-center text-white px-4 py-3 mt-2 bg-green-800 rounded-lg shadow-md h-[20%] mb-2">
+          <ico.PhilippinePeso
+            className="mr-2 text-white scale-200 pl-[2px]"
+            onClick={() => toggleTheme()}
+          />
+          <div className="w-[2px] h-[100%] bg-white/70 mx-3 rounded"></div>
+          <div className="flex flex-col leading-tight">
+            <span className="text-2xl font-bold">PadalaKo</span>
+            <span className="text-sm text-green-200 font-medium">Management System</span>
+          </div>
+        </SidebarGroupLabel>
+
+
+
+
           <SidebarGroupContent>
+            
             <SidebarMenu className="mt-4">
               <SidebarMenuItem>
-                <div  className="text-background bg-kolor p-1">DASHBOARD</div>
+                <div  className="text-background bg-kolor p-1 rounded pl-[10px]">DASHBOARD</div>
                 <SidebarMenuSub>
-                  <SidebarMenuSubItem>
+                  <SidebarMenuSubItem className="my-1">
                   <SidebarMenuSubButton asChild>
                     <a href="Dashboard">
                       <ico.Monitor/>
@@ -78,9 +95,9 @@ export function AppSidebar() {
                 </SidebarMenuSubItem>
 
                 </SidebarMenuSub>
-                <div  className="text-background bg-kolor p-1">HUMAN RESOURCES</div>
+                <div  className="text-background bg-kolor p-1 rounded pl-[10px]">HUMAN RESOURCES</div>
                 <SidebarMenuSub>
-                  <SidebarMenuSubItem>
+                  <SidebarMenuSubItem className="mt-1">
                     <SidebarMenuSubButton asChild>
                       <a href="Employee">
                         <ico.Users />
@@ -91,7 +108,7 @@ export function AppSidebar() {
                 </SidebarMenuSub>
                 
                 <SidebarMenuSub>
-                  <SidebarMenuSubItem>
+                  <SidebarMenuSubItem className="mt-1">
                     <SidebarMenuSubButton asChild>
                       <a href="Requests">
                         <ico.UserSquare />
@@ -102,7 +119,7 @@ export function AppSidebar() {
                 </SidebarMenuSub>
                 
                 <SidebarMenuSub>
-                  <SidebarMenuSubItem>
+                  <SidebarMenuSubItem className="my-1">
                     <SidebarMenuSubButton asChild>
                       <a href="Attendance">
                         <ico.Clock />
@@ -112,9 +129,9 @@ export function AppSidebar() {
                   </SidebarMenuSubItem>
                 </SidebarMenuSub>
 
-                <div  className="text-background bg-kolor p-1">FINANCES</div>
+                <div  className="text-background bg-kolor p-1 rounded pl-[10px]">FINANCES</div>
                 <SidebarMenuSub>
-                  <SidebarMenuSubItem>
+                  <SidebarMenuSubItem className="mt-1">
                     <SidebarMenuSubButton asChild>
                       <a href="ExpensesRevenue">
                         <ico.CircleDollarSign />
@@ -125,7 +142,7 @@ export function AppSidebar() {
                 </SidebarMenuSub>
 
                 <SidebarMenuSub>
-                  <SidebarMenuSubItem>
+                  <SidebarMenuSubItem className="mt-1">
                     <SidebarMenuSubButton asChild>
                       <a href="Payroll">
                         <ico.Receipt />
